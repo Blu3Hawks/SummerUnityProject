@@ -31,20 +31,33 @@ public class UI_RotationHandler : MonoBehaviour
 
     private void CheckRotation()
     {
-        switch (Screen.orientation)
+        Vector3 acceleration = Input.acceleration;
+
+        if (Mathf.Abs(acceleration.x) > Mathf.Abs(acceleration.y))
         {
-            case ScreenOrientation.LandscapeLeft:
+            if (acceleration.x < 0)
+            {
+                Debug.Log("Landscape Left");
                 Rotate(landscapeLeft);
-                break;
-            case ScreenOrientation.LandscapeRight:
+            }
+            else
+            {
+                Debug.Log("Landscape Right");
                 Rotate(landscapeRight);
-                break;
-            case ScreenOrientation.Portrait:
-                Rotate(portrait); 
-                break;
-            case ScreenOrientation.PortraitUpsideDown:
+            }
+        }
+        else
+        {
+            if (acceleration.y > 0)
+            {
+                Debug.Log("Portrait Upside Down");
                 Rotate(portraitUpsideDown);
-                break;
+            }
+            else
+            {
+                Debug.Log("Portrait");
+                Rotate(portrait);   
+            }
         }
     }
 }

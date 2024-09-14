@@ -357,10 +357,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324d2c63f48b82945ae8b9585a8a995f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0
-  landscapeLeft: {x: 0, y: 0, z: 90, w: 0}
-  landscapeRight: {x: 0, y: 0, z: -90, w: 0}
-  portraitUpsideDown: {x: 0, y: 0, z: 180, w: 0}
+  duration: 0.2
+  landscapeLeft: {x: 90, y: 0, z: 0, w: 0}
+  landscapeRight: {x: -90, y: 0, z: 0, w: 0}
+  portraitUpsideDown: {x: 180, y: 0, z: 0, w: 0}
   portrait: {x: 0, y: 0, z: 0, w: 1}
 --- !u!1 &356837671
 GameObject:
@@ -390,7 +390,7 @@ Transform:
   m_GameObject: {fileID: 356837671}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.14717601, z: -0, w: -0.9891104}
-  m_LocalPosition: {x: -0.48000002, y: -3.3600001, z: -7.71}
+  m_LocalPosition: {x: -0.5, y: -3.3600001, z: -7.71}
   m_LocalScale: {x: 0.23110151, y: 0.23110151, z: 0.23110151}
   m_ConstrainProportionsScale: 0
   m_Children: []
