@@ -15,7 +15,7 @@ public class UI_RotationHandler : MonoBehaviour
 
     private void Update()
     {
-        CheckRotation();
+
     }
 
     private void Rotate(Quaternion quaternion)

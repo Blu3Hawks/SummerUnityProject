@@ -320,6 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 310227732}
   - component: {fileID: 310227733}
+  - component: {fileID: 310227734}
   m_Layer: 0
   m_Name: UI_Objects
   m_TagString: Untagged
@@ -362,6 +363,22 @@ MonoBehaviour:
   landscapeRight: {x: -90, y: 0, z: 0, w: 0}
   portraitUpsideDown: {x: 180, y: 0, z: 0, w: 0}
   portrait: {x: 0, y: 0, z: 0, w: 1}
+--- !u!114 &310227734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310227731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98110dd2d477584e9bf06653a98d898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSwipeLength: 40
+  maxThreshDiff: 20
+  minPinchDistance: 10
+  percentagePinchScaling: 2
 --- !u!1 &356837671
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,7 +1482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -304, y: -764.57935}
+  m_AnchoredPosition: {x: -304, y: -568.29614}
   m_SizeDelta: {x: 245.2949, y: 77.1769}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1884803454
