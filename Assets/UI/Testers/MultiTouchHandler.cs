@@ -19,6 +19,37 @@ public class MultiTouchHandler : MonoBehaviour
     void Update()
     {
         DetectTouch();
+        DetectPinch();
+    }
+
+    private void DetectPinch()
+    {
+        int touchCount = Input.touchCount;
+        for (int i = 0; i < touchCount; i++)
+        {
+            if(touchCount ==2)
+            {
+                Touch touch = Input.GetTouch(i);
+
+                // Display information about each touch
+                //  Debug.Log("Touch " + i + " - Position: " + touch.position + " Phase: " + touch.phase);
+                Vector2 startingPos = touch.position;
+                //Get pinching info here
+                Touch touch0 = Input.GetTouch(0);
+                Touch touch1 = Input.GetTouch(1);
+
+                Vector2 touch0_startingPos = touch0.position;
+                Vector2 touch1_startingPos = touch1.position;
+
+                if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
+                {
+                    Vector2 touch0_currentPos = touch.position;
+                    Vector2 touch1_currentPos = touch1.position;
+
+                    PinchDownScreen(touch0_startingPos, touch0_currentPos, touch1_startingPos, touch1_currentPos);
+                }
+            }
+        }
     }
 
     private void DetectTouch()
@@ -37,22 +68,6 @@ public class MultiTouchHandler : MonoBehaviour
             // Display information about each touch
             //  Debug.Log("Touch " + i + " - Position: " + touch.position + " Phase: " + touch.phase);
             Vector2 startingPos = touch.position;
-
-
-            //Get pinching info here
-            Touch touch0 = Input.GetTouch(0);
-            Touch touch1 = Input.GetTouch(1);
-
-            Vector2 touch0_startingPos = touch0.position;
-            Vector2 touch1_startingPos = touch1.position;
-
-            if (touch0.phase == TouchPhase.Moved || touch1.phase == TouchPhase.Moved)
-            {
-                Vector2 touch0_currentPos = touch.position;
-                Vector2 touch1_currentPos = touch1.position;
-
-                PinchDownScreen(touch0_startingPos, touch0_currentPos, touch1_startingPos, touch1_currentPos);
-            }
 
             // You can add additional touch handling logic here
             // For example, handle different touch phases

@@ -1,21 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UI_HealthHandler : MonoBehaviour
 {
-    // for every health amount, have this item prefab show and rotate
-    // health amount - int
-    // max and min health - maybe it's better to have a list of these health items, enable and disable them accordingly
-    // so let's go with that. when adding health, enable another health, if max health already then don't add, if removed then disable one object
-    //after removing always check if it's more than 0 - if less then game lost, if max health don't add
     public Camera mainCamera;
 
     [Header("Health")]
     public GameObject[] healthObjects;
     public int currentHealth;
-    [SerializeField] private int maxHealth = 3; // default values
-
+    [SerializeField] private int maxHealth = 3;
 
     [Header("Rotation & Position")]
     [SerializeField] private int rotationSpeed;
@@ -23,21 +18,21 @@ public class UI_HealthHandler : MonoBehaviour
 
     [SerializeField] private Vector3 offsetPosition;
     [SerializeField] private Transform healthObjectParent;
-    ScreenOrientation lastOrientation;
 
+
+    private Vector3[] originalPositions; // Store the original positions
 
     private void Start()
     {
         currentHealth = maxHealth;
+        originalPositions = new Vector3[healthObjects.Length];
         PositionObjects();
-        lastOrientation = Screen.orientation;
     }
-
 
     private void Update()
     {
         RotateHealth();
-        UISmoothRotation();
+        CheckForRotations();
     }
 
     private void RotateHealth()
@@ -64,40 +59,74 @@ public class UI_HealthHandler : MonoBehaviour
                 topRightCorner.y - offsetPosition.y,
                 topRightCorner.z - offsetPosition.z
             );
+
             gameObject.transform.position = position;
             healthObjects[i].transform.localScale = Vector3.one * (aspectRatio / 2);
             gameObject.transform.SetParent(healthObjectParent, true);
+
+            originalPositions[i] = position;
         }
     }
 
-    private void UISmoothRotation()
+
+
+    private void CheckForRotations()
     {
-        ScreenOrientation currentOrientation = Screen.orientation;
+        Vector3 acceleration = Input.acceleration;
 
-        if (lastOrientation != currentOrientation)
+        if (Mathf.Abs(acceleration.x) > Mathf.Abs(acceleration.y))
         {
-            lastOrientation = currentOrientation;
-            RepositionUIElements();
+            if (acceleration.x > 0)
+            {
+                Debug.Log("Landscape Left");
+                RepositionUIElements(new Vector3(-30, 0, 0));
+                PositionObjects();
+            }
+            else
+            {
+                Debug.Log("Landscape Right");
+                RepositionUIElements(new Vector3(-30, 0, 0));
+                PositionObjects();
+            }
+        }
+        else
+        {
+            if (acceleration.y > 0)
+            {
+                Debug.Log("Portrait Upside Down");
+                RepositionUIElements(new Vector3(-30, 0, 0));
+                PositionObjects();
+            }
+            else
+            {
+                Debug.Log("Portrait");
+                RepositionUIElements(new Vector3(-30, 0, 0));
+                PositionObjects();
+            }
         }
     }
 
-    private void RepositionUIElements()
+    private void RepositionUIElements(Vector3 addedPos)
     {
-        foreach(GameObject healthObject in healthObjects)
+        for (int i = 0; i < healthObjects.Length; i++)
         {
-            Vector3 originalPos = healthObject.transform.position;
-            healthObject.transform.position += new Vector3(30, 0, 0);
-            healthObject.transform.position = Vector3.Slerp(originalPos, healthObject.transform.position, 0.5f);
+            GameObject healthObject = healthObjects[i];
+
+            // Apply the offset (temporary movement)
+            Vector3 offsetPosition = originalPositions[i] - addedPos;
+            healthObject.transform.position = offsetPosition;
+
+            // Smoothly move back to the original position using DOTween
+            healthObject.transform.DOMove(originalPositions[i], 1f);
         }
     }
-
 
     public void TakeDamage()
     {
         currentHealth--;
         if (currentHealth < 0)
         {
-            Debug.Log("You lost the game"); // restart the game
+            Debug.Log("You lost the game"); // Restart the game logic
         }
         UpdateHealthObjects();
     }
