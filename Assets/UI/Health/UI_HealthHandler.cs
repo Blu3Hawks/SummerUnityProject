@@ -12,7 +12,7 @@ public class UI_HealthHandler : MonoBehaviour
     public Camera mainCamera;
 
     [Header("Health")]
-    public GameObject[] healthObject;
+    public GameObject[] healthObjects;
     public int currentHealth;
     [SerializeField] private int maxHealth = 3; // default values
 
@@ -23,22 +23,26 @@ public class UI_HealthHandler : MonoBehaviour
 
     [SerializeField] private Vector3 offsetPosition;
     [SerializeField] private Transform healthObjectParent;
+    ScreenOrientation lastOrientation;
+
 
     private void Start()
     {
         currentHealth = maxHealth;
         PositionObjects();
+        lastOrientation = Screen.orientation;
     }
 
 
     private void Update()
     {
         RotateHealth();
+        UISmoothRotation();
     }
 
     private void RotateHealth()
     {
-        foreach (GameObject objectToRotate in healthObject)
+        foreach (GameObject objectToRotate in healthObjects)
         {
             Vector3 rotation = new Vector3(0, rotationSpeed, 0);
             objectToRotate.transform.Rotate(rotation * Time.deltaTime);
@@ -51,20 +55,42 @@ public class UI_HealthHandler : MonoBehaviour
         Vector3 topRightCorner = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane + 5f));
 
         float dynamicSpaceBetweenObjects = spaceBetweenObjects * aspectRatio;
-        for (int i = 0; i < healthObject.Length; i++)
+        for (int i = 0; i < healthObjects.Length; i++)
         {
-            GameObject gameObject = healthObject[i];
+            GameObject gameObject = healthObjects[i];
 
             Vector3 position = new Vector3(
-                topRightCorner.x - (dynamicSpaceBetweenObjects * (i+ offsetPosition.x)),
+                topRightCorner.x - (dynamicSpaceBetweenObjects * (i + offsetPosition.x)),
                 topRightCorner.y - offsetPosition.y,
                 topRightCorner.z - offsetPosition.z
             );
             gameObject.transform.position = position;
-            healthObject[i].transform.localScale = Vector3.one * (aspectRatio / 2);
+            healthObjects[i].transform.localScale = Vector3.one * (aspectRatio / 2);
             gameObject.transform.SetParent(healthObjectParent, true);
         }
     }
+
+    private void UISmoothRotation()
+    {
+        ScreenOrientation currentOrientation = Screen.orientation;
+
+        if (lastOrientation != currentOrientation)
+        {
+            lastOrientation = currentOrientation;
+            RepositionUIElements();
+        }
+    }
+
+    private void RepositionUIElements()
+    {
+        foreach(GameObject healthObject in healthObjects)
+        {
+            Vector3 originalPos = healthObject.transform.position;
+            healthObject.transform.position += new Vector3(30, 0, 0);
+            healthObject.transform.position = Vector3.Slerp(originalPos, healthObject.transform.position, 0.5f);
+        }
+    }
+
 
     public void TakeDamage()
     {
@@ -88,9 +114,9 @@ public class UI_HealthHandler : MonoBehaviour
 
     private void UpdateHealthObjects()
     {
-        for(int i = 0; i < healthObject.Length;i++)
+        for (int i = 0; i < healthObjects.Length; i++)
         {
-            healthObject[i].SetActive(i < currentHealth);
+            healthObjects[i].SetActive(i < currentHealth);
         }
     }
 }
