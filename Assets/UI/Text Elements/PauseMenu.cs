@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -16,6 +18,13 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject input_Joystick;
     [SerializeField] private GameObject input_Buttons;
 
+    [Header("UI Elements")]
+    [SerializeField] private Slider volumeSlider;
+    [SerializeField] private TMP_Dropdown difficultyDropdown;
+    [SerializeField] private TMP_Dropdown inputChoiceDropdown;
+
+
+    [Header("Saved Values")]
     public float volume;
     public int systemIndex;
 
@@ -37,10 +46,15 @@ public class PauseMenu : MonoBehaviour
 
     private void LoadSettings()
     {
+        //loading the values
         PlayerData data = SaveSystem.LoadPlayer();
         volume = data.volume;
         systemIndex = data.inputSystem;
         difficulty = data.diffculty;
+        //making sure the values would implement to the UI properly
+        volumeSlider.value = volume;
+        difficultyDropdown.value = (int)difficulty;
+        inputChoiceDropdown.value = systemIndex;
 
         Debug.Log(volume + systemIndex.ToString() + difficulty);
     }
