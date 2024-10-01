@@ -7778,7 +7778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7222335768b02174a965e327a2506464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDistance: 6
+  moveDistance: 4.5
   moveSpeed: 10
   jumpForce: 5
   isGrounded: 1

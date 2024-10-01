@@ -7,7 +7,7 @@ public class DeathPlane : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene("GameScene2");
+            SceneManager.LoadScene("GameScene");
         }
     }
 }

@@ -5,9 +5,9 @@ public class GenerateNewTile : MonoBehaviour
     public GameObject NewTile;
     public Vector3 spawnPosition = new Vector3 (0, 0, 0);
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.name == "GenerateNext")
+        if (collider.gameObject.CompareTag("Trigger"))
         {
             Instantiate(NewTile, spawnPosition, Quaternion.identity);
         }
