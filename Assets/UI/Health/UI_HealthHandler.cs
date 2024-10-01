@@ -99,7 +99,7 @@ public class UI_HealthHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("Portrait");
+                //Debug.Log("Portrait");
                 RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }

@@ -40,7 +40,7 @@ public class UI_PowerUpHandler : MonoBehaviour
             if (acceleration.x > 0)
             {
                 Debug.Log("Landscape Left");
-                RepositionUIElements(new Vector3(-30, 0, 0));   
+                RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }
             else
@@ -60,7 +60,7 @@ public class UI_PowerUpHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("Portrait");
+                //                Debug.Log("Portrait");
                 RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }
@@ -93,9 +93,9 @@ public class UI_PowerUpHandler : MonoBehaviour
             GameObject gameObject = powerUpObjects[i];
 
             Vector3 position = new Vector3(
-                topLeftCorner.x + (dynamicSpaceBetweenObjects * (i + offsetPosition.x)),  
-                topLeftCorner.y - offsetPosition.y, 
-                topLeftCorner.z - offsetPosition.z  
+                topLeftCorner.x + (dynamicSpaceBetweenObjects * (i + offsetPosition.x)),
+                topLeftCorner.y - offsetPosition.y,
+                topLeftCorner.z - offsetPosition.z
             );
 
             gameObject.transform.position = position;

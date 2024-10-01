@@ -61,7 +61,7 @@ public class UI_Score : MonoBehaviour
             }
             else
             {
-                Debug.Log("Portrait");
+               // Debug.Log("Portrait");
                 //RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }
