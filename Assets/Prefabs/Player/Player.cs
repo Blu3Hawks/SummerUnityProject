@@ -107,10 +107,17 @@ public class Player : MonoBehaviour
     // Check if the player is grounded
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Trigger"))  // Make sure your ground has the tag "Trigger"
+        if (other.CompareTag("Trigger"))
         {
             isGrounded = true;
             Debug.Log("Player is grounded");
         }
+
+        if (other.CompareTag("Obstacle"))
+        {
+            anim.SetTrigger("isHit");
+        }
     }
+
+    
 }

@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: barrierStrut
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a5d9a03005091ef43ac428cfaf74638e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
