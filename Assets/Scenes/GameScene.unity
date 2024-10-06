@@ -1735,7 +1735,6 @@ GameObject:
   - component: {fileID: 544442555}
   - component: {fileID: 544442554}
   - component: {fileID: 544442558}
-  - component: {fileID: 544442559}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1842,7 +1841,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23dd997714e5a8d478122aaf294b37f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
 --- !u!1 &563887953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,15 +1879,11 @@ RectTransform:
   m_SizeDelta: {x: -30, y: -142.83}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563887955
-=======
---- !u!114 &544442559
->>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< Updated upstream
   m_GameObject: {fileID: 563887953}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -2249,14 +2243,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 584860360}
   m_CullTransparentMesh: 1
-=======
-  m_GameObject: {fileID: 544442553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8515c4782d5fa4a45a62f335584c2b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
->>>>>>> Stashed changes
 --- !u!1 &594781174
 GameObject:
   m_ObjectHideFlags: 0
