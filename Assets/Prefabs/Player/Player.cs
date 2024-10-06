@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
 
     Animator anim;
 
+    private bool leftLane = false;
+    private bool rightLane = false;
+
     private void Start()
     {
         // Initialize the player's target position to its current position at the start
@@ -34,21 +37,59 @@ public class Player : MonoBehaviour
 
     public void MoveLeft()
     {
-        // Move left
-        targetPosition = new Vector3(transform.position.x - moveDistance, transform.position.y, transform.position.z);
-        if (isGrounded)
+        if (rightLane == true)
         {
-            anim.SetTrigger("leftSwipe");
+            rightLane = false;
+            targetPosition = new Vector3(transform.position.x - moveDistance, transform.position.y, transform.position.z);
+            if (isGrounded)
+            {
+                anim.SetTrigger("leftSwipe");
+            }
         }
+        else if (leftLane == false)
+        {
+            leftLane = true;
+            targetPosition = new Vector3(transform.position.x - moveDistance, transform.position.y, transform.position.z);
+            if (isGrounded)
+            {
+                anim.SetTrigger("leftSwipe");
+            }
+        }
+        else if (leftLane == true)
+        {
+            if (isGrounded)
+            {
+                anim.SetTrigger("leftSwipe");
+            }
+        }        
     }
 
     public void MoveRight()
     {
-        // Move right
-        targetPosition = new Vector3(transform.position.x + moveDistance, transform.position.y, transform.position.z);
-        if (isGrounded)
+        if (leftLane == true)
         {
-            anim.SetTrigger("rightSwipe");
+            leftLane = false;
+            targetPosition = new Vector3(transform.position.x + moveDistance, transform.position.y, transform.position.z);
+            if (isGrounded)
+            {
+                anim.SetTrigger("rightSwipe");
+            }
+        }
+        else if (rightLane == false)
+        {
+            rightLane = true;
+            targetPosition = new Vector3(transform.position.x + moveDistance, transform.position.y, transform.position.z);
+            if (isGrounded)
+            {
+                anim.SetTrigger("rightSwipe");
+            }
+        }
+        else if (rightLane == true)
+        {
+            if (isGrounded)
+            {
+                anim.SetTrigger("rightSwipe");
+            }
         }
     }
 
@@ -66,10 +107,17 @@ public class Player : MonoBehaviour
     // Check if the player is grounded
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Trigger"))  // Make sure your ground has the tag "Trigger"
+        if (other.CompareTag("Trigger"))
         {
             isGrounded = true;
             Debug.Log("Player is grounded");
         }
+
+        if (other.CompareTag("Obstacle"))
+        {
+            anim.SetTrigger("isHit");
+        }
     }
+
+    
 }

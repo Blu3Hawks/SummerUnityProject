@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class DeathPlane : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.tag == "Player")
+        if (collision.gameObject.CompareTag("Player"))
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("GameScene");
         }
     }
 }
