@@ -917,6 +917,9 @@ MonoBehaviour:
   input_Swipes: {fileID: 989717097}
   input_Joystick: {fileID: 1430463689}
   input_Buttons: {fileID: 510351662}
+  volumeSlider: {fileID: 1304900652}
+  difficultyDropdown: {fileID: 613546575}
+  inputChoiceDropdown: {fileID: 1497852829}
   volume: 0
   systemIndex: 0
   difficulty: 0
@@ -5776,6 +5779,37 @@ RectTransform:
   m_AnchoredPosition: {x: 33.749977, y: 44.549927}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1707488274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1707488276}
+  m_Layer: 0
+  m_Name: RoadCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1707488276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707488274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.41, y: 0, z: -6.47}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1710637251
 GameObject:
   m_ObjectHideFlags: 0
@@ -7643,7 +7677,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2135411105}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0040437924, y: -0.8148518, z: 0.57796025, w: -0.044296857}
+  m_LocalRotation: {x: 0.23030874, y: -0.15252443, z: 0.58008444, w: 0.7662873}
   m_LocalPosition: {x: 1.54, y: 3.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -7876,3 +7910,4 @@ SceneRoots:
   - {fileID: 440369435}
   - {fileID: 544442557}
   - {fileID: 131889933}
+  - {fileID: 1707488276}
