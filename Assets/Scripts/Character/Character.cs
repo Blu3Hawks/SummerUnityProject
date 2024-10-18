@@ -7,5 +7,6 @@ public class Character
 {
     public string skinName;
     public Player player;
+    public Sprite image;    
 
 }

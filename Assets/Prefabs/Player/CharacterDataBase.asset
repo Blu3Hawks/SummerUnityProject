@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 325c2f0f1102bb34a9fc216798b89875, type: 3}
+  m_Name: CharacterDataBase
+  m_EditorClassIdentifier: 
+  characters:
+  - skinName: Barbarian
+    player: {fileID: 8140236630920507564, guid: d12f73a9de1d03743826c8f23599f0a9,
+      type: 3}
+    animatorController: {fileID: 0}
+    image: {fileID: 21300000, guid: bff24ccf4b4e8b44bae4c0fe84dec9e2, type: 3}
+  - skinName: Blue Wizard
+    player: {fileID: -3762654539971933899, guid: d96078ab24c68674a869935f6ae02f30,
+      type: 3}
+    animatorController: {fileID: 0}
+    image: {fileID: 21300000, guid: 5d24bc5b4ff9ccb469942614cfa030ac, type: 3}
+  - skinName: Green Wizard
+    player: {fileID: -2951392190802789339, guid: cf878f11e84e3b14ba4043975a7f873f,
+      type: 3}
+    animatorController: {fileID: 0}
+    image: {fileID: 21300000, guid: 2a422764a828fbe44809a190e758de04, type: 3}
+  - skinName: Pink Wizard
+    player: {fileID: 931500046506015906, guid: 9ebaf528d6b028f4eb2803234f782535, type: 3}
+    animatorController: {fileID: 0}
+    image: {fileID: 21300000, guid: 15e483497b7f1a44e91be427780b90c5, type: 3}
+  - skinName: Fox
+    player: {fileID: 4938306011645283913, guid: 4071566a8c526064d8249336706d0302,
+      type: 3}
+    animatorController: {fileID: 0}
+    image: {fileID: 21300000, guid: c0776d740a878ba48864fa1c0b7e2118, type: 3}

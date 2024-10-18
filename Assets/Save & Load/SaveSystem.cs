@@ -1,25 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+
 public static class SaveSystem
 {
-    public static void SaveSettings(PauseMenu settingsMenu)
+    public static void SavePlayer(PlayerData data)
     {
         BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/player.settings";
-
+        string path = Application.persistentDataPath + "/player.save";
         FileStream stream = new FileStream(path, FileMode.Create);
 
-        PlayerData data = new PlayerData(settingsMenu);
         formatter.Serialize(stream, data);
         stream.Close();
+
+        Debug.Log("Player data saved successfully.");
     }
 
     public static PlayerData LoadPlayer()
     {
-        string path = Application.persistentDataPath + "/player.settings";
+        string path = Application.persistentDataPath + "/player.save";
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -31,9 +30,22 @@ public static class SaveSystem
         }
         else
         {
-            Debug.LogError("Save file wasn't found!");
-            return null;
+            Debug.LogWarning("Save file not found in " + path);
+            return null; 
         }
     }
 
+    public static void DeleteSaveFile()
+    {
+        string path = Application.persistentDataPath + "/player.save";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+            Debug.Log("Save file deleted.");
+        }
+        else
+        {
+            Debug.LogWarning("No save file found to delete.");
+        }
+    }
 }

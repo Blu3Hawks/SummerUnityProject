@@ -24,6 +24,7 @@ public class UI_Score : MonoBehaviour
         originalPosition = textObject.transform.position;
         UpdateScore();
         PositionObjects();
+        mainCamera = FindAnyObjectByType<Camera>();
     }
 
     private void Update()

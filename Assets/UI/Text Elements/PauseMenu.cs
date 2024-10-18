@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
+    [Header("UI General")]
     [SerializeField] private GameObject pauseMenuUI;
     [SerializeField] private GameObject settingsButton;
     [SerializeField] private GameObject settingsMenuUI;
@@ -23,11 +24,14 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private TMP_Dropdown difficultyDropdown;
     [SerializeField] private TMP_Dropdown inputChoiceDropdown;
 
+    [Header("Player Settings")]
 
     [Header("Saved Values")]
     public float volume;
     public int systemIndex;
 
+
+    private PlayerData data;
     public enum Difficulty
     {
         easy,
@@ -47,10 +51,10 @@ public class PauseMenu : MonoBehaviour
     private void LoadSettings()
     {
         //loading the values
-        PlayerData data = SaveSystem.LoadPlayer();
+        data = SaveSystem.LoadPlayer();
         volume = data.volume;
         systemIndex = data.inputSystem;
-        difficulty = data.diffculty;
+        difficulty = data.difficulty;
         //making sure the values would implement to the UI properly
         volumeSlider.value = volume;
         difficultyDropdown.value = (int)difficulty;
@@ -96,7 +100,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(true);
-        SaveSystem.SaveSettings(this);
+        SaveSystem.SavePlayer(data);
 
     }
 
@@ -120,7 +124,7 @@ public class PauseMenu : MonoBehaviour
                 systemIndex = 2;
                 break;
         }
-        SaveSystem.SaveSettings(this);
+        SaveSystem.SavePlayer(data);
     }
     public void SelectInputSystem(int index)
     {
@@ -145,7 +149,7 @@ public class PauseMenu : MonoBehaviour
                 Debug.Log("Buttons is now the input choice");
                 break;
         }
-        SaveSystem.SaveSettings(this);
+        SaveSystem.SavePlayer(data);
 
     }
 
@@ -157,7 +161,7 @@ public class PauseMenu : MonoBehaviour
         {
             this.volume = currentVolume;
         }
-        SaveSystem.SaveSettings(this);
+        SaveSystem.SavePlayer(data);
 
     }
 }
