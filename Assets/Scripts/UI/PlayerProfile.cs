@@ -18,9 +18,6 @@ public class PlayerProfile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    private void Start()
-    {
         LoadPlayerData();
 
         CheckLevelAndInstantiateSkin();

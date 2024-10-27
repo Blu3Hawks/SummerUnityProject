@@ -2365,10 +2365,9 @@ GameObject:
   - component: {fileID: 136275810615880682}
   - component: {fileID: -2951392190802789339}
   - component: {fileID: -837612847858737145}
-  - component: {fileID: -1005272966267960193}
   m_Layer: 0
   m_Name: Green Wizard
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2478,20 +2477,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &-1005272966267960193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1953271650171834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8a92c96f6bde94194126e95ba57075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NewTile: {fileID: 8842242163114268877, guid: 06c0826d2ca7d734788aca2d19d899f9, type: 3}
-  spawnPosition: {x: 0, y: 0, z: 135}
 --- !u!1 &1956949540428108
 GameObject:
   m_ObjectHideFlags: 0

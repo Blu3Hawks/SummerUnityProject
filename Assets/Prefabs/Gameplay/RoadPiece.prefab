@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3710264563401303712}
-  - component: {fileID: 4144148981812850759}
   - component: {fileID: 5059499192495190916}
+  - component: {fileID: -5380727885452608951}
+  - component: {fileID: 4144148981812850759}
   m_Layer: 0
   m_Name: RoadPiece
   m_TagString: Trigger
@@ -36,20 +37,6 @@ Transform:
   - {fileID: 217950335614799881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4144148981812850759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8842242163114268877}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05fcd3e4d2e6a774392be1ddb88496e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 12
-  resetPositionZ: -50
 --- !u!65 &5059499192495190916
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71,6 +58,41 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 15, y: 10.298617, z: 1.276541}
   m_Center: {x: -3.63, y: 4.6493087, z: -2.8501632}
+--- !u!114 &-5380727885452608951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842242163114268877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42d6ab11ea5227a45b43542eb3584a09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstaclePrefabs:
+  - {fileID: 6489479578088423567, guid: 58bc9566228c2c445b8037f4d203b76e, type: 3}
+  - {fileID: 6489479578088423567, guid: 710860cce51ece9429a43d538022f226, type: 3}
+  - {fileID: 6489479578088423567, guid: 58f5c3ba726468e44a202af92d76f184, type: 3}
+  minLaneOffset: 3
+  maxLaneOffset: 3.5
+  minObstacleSpacing: 3
+  obstacleSpawnZPosition: 1.6
+--- !u!114 &4144148981812850759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8842242163114268877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fcd3e4d2e6a774392be1ddb88496e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 12
+  resetPositionZ: -50
+  spawnPosition: {x: 0, y: 0, z: 88}
 --- !u!1001 &327893959202453474
 PrefabInstance:
   m_ObjectHideFlags: 0

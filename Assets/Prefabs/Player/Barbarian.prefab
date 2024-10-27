@@ -348,6 +348,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barbarian
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f6c74d8a9e4117746ad8fef69499b1bd,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -364,10 +369,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1776996319849584577}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6c74d8a9e4117746ad8fef69499b1bd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8634621593730065971}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f6c74d8a9e4117746ad8fef69499b1bd,
         type: 3}
       insertIndex: -1
@@ -418,20 +419,6 @@ CapsuleCollider:
   m_Height: 2.436141
   m_Direction: 1
   m_Center: {x: -0, y: 1.2001524, z: -0}
---- !u!114 &8634621593730065971
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1457058156282540731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8a92c96f6bde94194126e95ba57075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NewTile: {fileID: 8842242163114268877, guid: 06c0826d2ca7d734788aca2d19d899f9, type: 3}
-  spawnPosition: {x: 0, y: 0, z: 135}
 --- !u!54 &8876277719098957523
 Rigidbody:
   m_ObjectHideFlags: 0

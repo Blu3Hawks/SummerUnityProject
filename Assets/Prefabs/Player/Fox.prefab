@@ -909,12 +909,11 @@ GameObject:
   - component: {fileID: 4361374554138886284}
   - component: {fileID: 7666986768240843510}
   - component: {fileID: 5816163942134799539}
-  - component: {fileID: -3261134986928777908}
   - component: {fileID: 4938306011645283913}
   - component: {fileID: -2063892433356446385}
   m_Layer: 0
   m_Name: Fox
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -981,20 +980,6 @@ CapsuleCollider:
   m_Height: 2.89
   m_Direction: 2
   m_Center: {x: 0, y: 0.75, z: -0.37}
---- !u!114 &-3261134986928777908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4020983980232809014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a8a92c96f6bde94194126e95ba57075, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NewTile: {fileID: 8842242163114268877, guid: 06c0826d2ca7d734788aca2d19d899f9, type: 3}
-  spawnPosition: {x: 0, y: 0, z: 135}
 --- !u!114 &4938306011645283913
 MonoBehaviour:
   m_ObjectHideFlags: 0
