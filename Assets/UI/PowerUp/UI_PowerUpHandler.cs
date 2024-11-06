@@ -1,14 +1,15 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class UI_PowerUpHandler : MonoBehaviour
 {
     public Camera mainCamera;
 
     [Header("Power Up")]
-    public GameObject[] powerUpObjects;
+    public GameObject powerUpPrefab;
+    public List<GameObject> powerUpObjects = new List<GameObject>();
 
     [Header("Rotation & Position")]
     [SerializeField] private int rotationSpeed;
@@ -17,11 +18,13 @@ public class UI_PowerUpHandler : MonoBehaviour
     [SerializeField] private Vector3 offsetPosition;
     [SerializeField] private Transform powerUpObjectParent;
 
-    private Vector3[] originalPositions; // Store the original positions
+    public int currentPowerUps;
+    private Vector3[] originalPositions;
 
     private void Start()
     {
-        originalPositions = new Vector3[powerUpObjects.Length];
+        originalPositions = new Vector3[10];
+        InitializePowerUpObjects();
         PositionObjects();
     }
 
@@ -29,6 +32,79 @@ public class UI_PowerUpHandler : MonoBehaviour
     {
         RotatePowerUp();
         CheckForRotations();
+    }
+
+    private void InitializePowerUpObjects()
+    {
+        foreach (Transform child in powerUpObjectParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        for (int i = 0; i < currentPowerUps; i++)
+        {
+            GameObject powerUpObjectInstance = Instantiate(powerUpPrefab, powerUpObjectParent);
+            powerUpObjects.Add(powerUpObjectInstance);
+        }
+    }
+
+    public void AddPowerup()
+    {
+        currentPowerUps++;
+        GameObject powerUpObjectInstance = Instantiate(powerUpPrefab, powerUpObjectParent);
+        powerUpObjects.Add(powerUpObjectInstance);
+        PositionObjects(); // Reposition objects after adding
+    }
+
+    public void PositionObjects()
+    {
+        if (mainCamera == null)
+        {
+            Debug.LogWarning("Main Camera is not assigned.");
+            return;
+        }
+
+        Vector3 topLeftCorner = mainCamera.ViewportToWorldPoint(new Vector3(0, 1, mainCamera.nearClipPlane + 5f));
+
+        bool isPortrait = Screen.height > Screen.width;
+
+        for (int i = 0; i < powerUpObjects.Count; i++)
+        {
+            GameObject powerUpObject = powerUpObjects[i];
+            Vector3 position;
+
+            if (!isPortrait)
+            {
+                position = new Vector3(
+                    topLeftCorner.x + offsetPosition.x + (i * spaceBetweenObjects * 2),
+                    topLeftCorner.y  - offsetPosition.y,
+                    topLeftCorner.z - offsetPosition.z
+                );
+                powerUpObject.transform.position = position;
+                powerUpObject.transform.localScale = Vector3.one * ((float)Screen.width / Screen.height / 6);
+                originalPositions[i] = position;
+            }
+            else
+            {
+                position = new Vector3(
+                    topLeftCorner.x + (i * spaceBetweenObjects) + offsetPosition.x,
+                    topLeftCorner.y - offsetPosition.y,
+                    topLeftCorner.z - offsetPosition.z
+                );
+                powerUpObject.transform.position = position;
+                powerUpObject.transform.localScale = Vector3.one * ((float)Screen.width / Screen.height / 2);
+                originalPositions[i] = position;
+            }
+        }
+    }
+
+    private void RotatePowerUp()
+    {
+        foreach (GameObject objectToRotate in powerUpObjects)
+        {
+            Vector3 rotation = new Vector3(0, rotationSpeed, 0);
+            objectToRotate.transform.Rotate(rotation * Time.deltaTime);
+        }
     }
 
     private void CheckForRotations()
@@ -60,7 +136,6 @@ public class UI_PowerUpHandler : MonoBehaviour
             }
             else
             {
-                //                Debug.Log("Portrait");
                 RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }
@@ -69,49 +144,16 @@ public class UI_PowerUpHandler : MonoBehaviour
 
     private void RepositionUIElements(Vector3 addedPos)
     {
-        for (int i = 0; i < powerUpObjects.Length; i++)
+        for (int i = 0; i < powerUpObjects.Count; i++)
         {
             GameObject powerUpObject = powerUpObjects[i];
 
-            // Apply the offset (temporary movement)
             Vector3 offsetPosition = originalPositions[i] - addedPos;
             powerUpObject.transform.position = offsetPosition;
 
-            // Smoothly move back to the original position using DOTween
             powerUpObject.transform.DOMove(originalPositions[i], 1f);
         }
     }
 
-    private void PositionObjects()
-    {
-        float aspectRatio = (float)Screen.width / Screen.height;
-        Vector3 topLeftCorner = mainCamera.ViewportToWorldPoint(new Vector3(0, 1, mainCamera.nearClipPlane + 5f));
-
-        float dynamicSpaceBetweenObjects = spaceBetweenObjects * aspectRatio;
-        for (int i = 0; i < powerUpObjects.Length; i++)
-        {
-            GameObject gameObject = powerUpObjects[i];
-
-            Vector3 position = new Vector3(
-                topLeftCorner.x + (dynamicSpaceBetweenObjects * (i + offsetPosition.x)),
-                topLeftCorner.y - offsetPosition.y,
-                topLeftCorner.z - offsetPosition.z
-            );
-
-            gameObject.transform.position = position;
-            powerUpObjects[i].transform.localScale = Vector3.one * (aspectRatio / 2);
-            gameObject.transform.SetParent(powerUpObjectParent, true);
-
-            originalPositions[i] = position;
-        }
-    }
-
-    private void RotatePowerUp()
-    {
-        foreach (GameObject objectToRotate in powerUpObjects)
-        {
-            Vector3 rotation = new Vector3(0, rotationSpeed, 0);
-            objectToRotate.transform.Rotate(rotation * Time.deltaTime);
-        }
-    }
+    
 }

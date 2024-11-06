@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -19,14 +18,15 @@ public class UI_Score : MonoBehaviour
 
     private Vector3 originalPosition;
     private float timer = 0f;
+    private bool isPositioned = false;
 
     private void Start()
     {
         originalPosition = textObject.transform.position;
         UpdateScore();
         PositionObjects();
-
-        if (mainCamera == null)
+        mainCamera = FindAnyObjectByType<Camera>();
+        if( mainCamera == null )
         {
             StartCoroutine(GetCameraWithDelay());
         }
@@ -35,58 +35,50 @@ public class UI_Score : MonoBehaviour
     private void Update()
     {
         GainPassiveScore();
-        CheckForRotations();
+        if (!isPositioned)
+        {
+            CheckForRotations();
+        }
     }
 
     private IEnumerator GetCameraWithDelay()
     {
         yield return new WaitForSeconds(0.1f);
 
-        mainCamera = Camera.main;
-
+        Debug.Log("We try to find the camera");
         if (mainCamera == null)
         {
             mainCamera = FindAnyObjectByType<Camera>();
-        }
-
-        if (mainCamera == null)
-        {
-            Debug.LogWarning("Main Camera could not be found. Ensure a Camera is tagged as 'MainCamera' or present in the scene.");
+            if (mainCamera == null)
+            {
+                Debug.LogWarning("Main Camera could not be found. Ensure a Camera is tagged as 'MainCamera' or present in the scene.");
+                StartCoroutine(GetCameraWithDelay());
+            }
         }
     }
 
     private void CheckForRotations()
     {
-        Vector3 acceleration = Input.acceleration;
-
-        if (Mathf.Abs(acceleration.x) > Mathf.Abs(acceleration.y))
-        {
-            PositionObjects();
-        }
-        else
-        {
-            PositionObjects();
-        }
+        PositionObjects();
+        isPositioned = true; // Set to true after positioning
     }
 
     private void PositionObjects()
     {
-        if (mainCamera == null) return; // Exit if camera is still null
+        if (mainCamera == null) return;
 
         float aspectRatio = (float)Screen.width / Screen.height;
         Vector3 bottomLeftCorner = mainCamera.ViewportToWorldPoint(new Vector3(0, 0, mainCamera.nearClipPlane + 5f));
         float dynamicSpaceBetweenObjects = spaceBetweenObjects * aspectRatio;
 
         Vector3 position = new Vector3(
-            bottomLeftCorner.x - (dynamicSpaceBetweenObjects * (offsetPosition.x)),
+            bottomLeftCorner.x - (dynamicSpaceBetweenObjects * offsetPosition.x),
             bottomLeftCorner.y,
             bottomLeftCorner.z
         );
 
-        textObject.transform.position += position + new Vector3(-3000, 6000, 200);
-        textObject.transform.SetParent(gameObject.transform, true);
-
-        textObject.transform.DOMove(position, 0.5f);
+        textObject.transform.position = originalPosition; // Reset to original before applying final move
+        textObject.transform.DOMove(position, 0.5f).SetUpdate(true);
     }
 
     public void GainScore(int scoreAdded)
@@ -112,5 +104,27 @@ public class UI_Score : MonoBehaviour
             scoreAmount += scoreTimerAmount;
             UpdateScore();
         }
+    }
+
+    public void AddScore(int gainedScore)
+    {
+        scoreAmount += gainedScore;
+    }
+
+    private void OnDisable()
+    {
+        if (PlayerProfile.Instance != null && PlayerProfile.Instance.currentPlayerData != null)
+        {
+            PlayerProfile.Instance.currentPlayerData.totalScore += scoreAmount;
+            PlayerProfile.Instance.SavePlayerData();
+        }
+    }
+
+    private void OnEnable()
+    {
+        // Reset position when re-enabling
+        textObject.transform.position = originalPosition;
+        UpdateScore();
+        isPositioned = false; // Reset to allow positioning
     }
 }

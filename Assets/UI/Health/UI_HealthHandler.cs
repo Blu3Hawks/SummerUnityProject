@@ -8,8 +8,8 @@ public class UI_HealthHandler : MonoBehaviour
     public Camera mainCamera;
 
     [Header("Health")]
-    public GameObject healthPrefab; // Use a single prefab instead of array for instantiation
-    private List<GameObject> healthObjects = new List<GameObject>(); // Instances of health objects
+    public GameObject healthPrefab;
+    private List<GameObject> healthObjects = new List<GameObject>();
     public int currentHealth;
     [SerializeField] private int maxHealth = 3;
 
@@ -20,12 +20,15 @@ public class UI_HealthHandler : MonoBehaviour
     [SerializeField] private Vector3 offsetPosition;
     [SerializeField] private Transform healthObjectParent;
 
-    private Vector3[] originalPositions; // Store the original positions
+    [SerializeField] private LoseMenu lostMenuCanvas;
+    private Vector3[] originalPositions;
 
     private void Start()
     {
         currentHealth = maxHealth;
         originalPositions = new Vector3[maxHealth];
+        lostMenuCanvas = FindObjectOfType<LoseMenu>();
+        lostMenuCanvas.gameObject.SetActive(false);
         InitializeHealthObjects();
         PositionObjects();
     }
@@ -38,17 +41,18 @@ public class UI_HealthHandler : MonoBehaviour
 
     private void InitializeHealthObjects()
     {
-        // Clear any existing children to avoid duplicates
-        foreach (Transform child in healthObjectParent)
+        if (healthObjectParent.childCount != 0)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in healthObjectParent)
+            {
+                Destroy(child.gameObject);
+            }
         }
 
-        // Create instances of health objects and add them to the list
         for (int i = 0; i < maxHealth; i++)
         {
             GameObject healthObjectInstance = Instantiate(healthPrefab, healthObjectParent);
-            healthObjectInstance.SetActive(i < currentHealth); // Set active only up to current health
+            healthObjectInstance.SetActive(i < currentHealth);
             healthObjects.Add(healthObjectInstance);
         }
     }
@@ -69,21 +73,39 @@ public class UI_HealthHandler : MonoBehaviour
             Debug.LogWarning("Main Camera is not assigned.");
             return;
         }
+
         Vector3 topRightCorner = mainCamera.ViewportToWorldPoint(new Vector3(1, 1, mainCamera.nearClipPlane + 5f));
+
+        bool isPortrait = Screen.height > Screen.width;
 
         for (int i = 0; i < healthObjects.Count; i++)
         {
             GameObject healthObject = healthObjects[i];
+            Vector3 position;
 
-            Vector3 position = new Vector3(
-                topRightCorner.x - (i * spaceBetweenObjects) - offsetPosition.x,
-                topRightCorner.y - offsetPosition.y,
-                topRightCorner.z - offsetPosition.z
-            );
+            if (!isPortrait)
+            {
+                position = new Vector3(
+                    topRightCorner.x - offsetPosition.x - (i * spaceBetweenObjects * 2),
+                    topRightCorner.y  - offsetPosition.y,
+                    topRightCorner.z - offsetPosition.z
+                );
 
-            healthObject.transform.position = position;
-            healthObject.transform.localScale = Vector3.one * ((float)Screen.width / Screen.height / 2); // Adjust as needed
-            originalPositions[i] = position;
+                healthObject.transform.position = position;
+                healthObject.transform.localScale = Vector3.one * ((float)Screen.width / Screen.height / 6); 
+                originalPositions[i] = position;
+            }
+            else
+            {
+                position = new Vector3(
+                    topRightCorner.x - (i * spaceBetweenObjects) - offsetPosition.x,
+                    topRightCorner.y - offsetPosition.y,
+                    topRightCorner.z - offsetPosition.z
+                );
+                healthObject.transform.position = position;
+                healthObject.transform.localScale = Vector3.one * ((float)Screen.width / Screen.height / 2); 
+                originalPositions[i] = position;
+            }
         }
     }
 
@@ -116,7 +138,6 @@ public class UI_HealthHandler : MonoBehaviour
             }
             else
             {
-                // Debug.Log("Portrait");
                 RepositionUIElements(new Vector3(-30, 0, 0));
                 PositionObjects();
             }
@@ -129,11 +150,9 @@ public class UI_HealthHandler : MonoBehaviour
         {
             GameObject healthObject = healthObjects[i];
 
-            // Apply the offset (temporary movement)
             Vector3 offsetPosition = originalPositions[i] - addedPos;
             healthObject.transform.position = offsetPosition;
 
-            // Smoothly move back to the original position using DOTween
             healthObject.transform.DOMove(originalPositions[i], 1f);
         }
     }
@@ -141,9 +160,10 @@ public class UI_HealthHandler : MonoBehaviour
     public void TakeDamage()
     {
         currentHealth--;
-        if (currentHealth < 0)
+        if (currentHealth <= 0 || healthObjects.Count == 0)
         {
-            Debug.Log("You lost the game"); // Restart the game logic
+            Debug.Log("You lost the game");
+            lostMenuCanvas.gameObject.SetActive(true);
         }
         UpdateHealthObjects();
     }

@@ -6,34 +6,42 @@ public class ObstacleSpawner : MonoBehaviour
 {
     public GameObject[] obstaclePrefabs;
 
-    [SerializeField] private float minLaneOffset;
-    [SerializeField] private float maxLaneOffset;
-    [SerializeField] private float minObstacleSpacing;
-    [SerializeField] private float obstacleSpawnZPosition;
-
-    // 0 is the middle option - 3.2 are the sides, so 3.2 and -3.2. It can also be between 3 and 3.5 to randomise it. 
+    [SerializeField] private float minLaneOffset = 3f;
+    [SerializeField] private float maxLaneOffset = 3.5f;
+    [SerializeField] private float minObstacleSpacing = 1f;
+    [SerializeField] private float obstacleSpawnZPosition = 0f;
+    [SerializeField] private float spawnInterval = 10f;
+    [SerializeField] private float tileLength = 50f;
+    [SerializeField] private float addedYPos = 1.5f;
 
     public void SpawnObstaclesOnLanes()
     {
-        List<float> lanePositions = new List<float> {Random.Range(-minLaneOffset, -maxLaneOffset), 0, Random.Range(minLaneOffset, maxLaneOffset)};
+        int amountOfRows = Mathf.RoundToInt(tileLength / spawnInterval);
 
-        lanePositions.Shuffle();
-
-        float lastSpawnX = float.MinValue;
-
-        foreach (float laneX in lanePositions)
+        for (int i = 0; i < amountOfRows; i++)
         {
-            if (Random.value > 0.5f)
+            float currentSpawnZ = obstacleSpawnZPosition + i * spawnInterval;
+            List<Vector3> possibleSpawnLocations = new List<Vector3>
             {
-                if (Mathf.Abs(laneX - lastSpawnX) >= minObstacleSpacing)
-                {
-                    GameObject obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+                new Vector3(-Random.Range(minLaneOffset, maxLaneOffset), addedYPos, currentSpawnZ),
+                new Vector3(0, addedYPos, currentSpawnZ),
+                new Vector3(Random.Range(minLaneOffset, maxLaneOffset), addedYPos, currentSpawnZ)
+            };
 
-                    Vector3 spawnPosition = new Vector3(laneX, obstacleSpawnZPosition, 0);
-                    Instantiate(obstaclePrefab, transform.position + spawnPosition, Quaternion.identity, transform);
+            int amountOfSpawns = Random.Range(0, 3); 
 
-                    lastSpawnX = laneX;
-                }
+            for (int j = 0; j < amountOfSpawns; j++)
+            {
+                if (possibleSpawnLocations.Count == 0)
+                    break;
+
+                int randomIndex = Random.Range(0, possibleSpawnLocations.Count);
+                Vector3 spawnPosition = possibleSpawnLocations[randomIndex];
+
+                GameObject obstaclePrefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+                Instantiate(obstaclePrefab, transform.position + spawnPosition, Quaternion.identity, transform);
+
+                possibleSpawnLocations.RemoveAt(randomIndex);
             }
         }
     }

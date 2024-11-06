@@ -47,16 +47,16 @@ public class SelectPlayerMenuManager : MonoBehaviour
 
     public void SelectLevel1()
     {
-        SceneManager.LoadSceneAsync("Level1");
+        SceneManager.LoadScene("Level1");
     }
 
     public void SelectLevel2()
     {
-        SceneManager.LoadSceneAsync("Level2");
+        SceneManager.LoadScene("Level2");
     }
 
     public void SelectLevel3()
     {
-        SceneManager.LoadSceneAsync("Level3");
+        SceneManager.LoadScene("Level3");
     }
 }

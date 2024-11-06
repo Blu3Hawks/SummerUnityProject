@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -30,13 +32,13 @@ public class PauseMenu : MonoBehaviour
     public float volume;
     public int systemIndex;
 
-
-    private PlayerData data;
+    private UI_Score uiScore;
+    private PlayerData playerData;
     public enum Difficulty
     {
-        easy,
-        normal,
-        hard
+        easy = 0,
+        normal = 1,
+        hard = 2
     }
 
     public Difficulty difficulty;
@@ -46,19 +48,22 @@ public class PauseMenu : MonoBehaviour
     {
         SettingUpUI();
         LoadSettings();
+        playerData = PlayerProfile.Instance.currentPlayerData;
+        uiScore = GetComponent<UI_Score>();
+        Time.timeScale = 1f;
     }
 
     private void LoadSettings()
     {
         //loading the values
-        data = SaveSystem.LoadPlayer();
-        volume = data.volume;
-        systemIndex = data.inputSystem;
-        difficulty = data.difficulty;
+        playerData = SaveSystem.LoadPlayer();
+        volume = playerData.volume;
+        systemIndex = playerData.inputSystem;
+        difficulty = playerData.difficulty;
         //making sure the values would implement to the UI properly
-        volumeSlider.value = volume;
-        difficultyDropdown.value = (int)difficulty;
-        inputChoiceDropdown.value = systemIndex;
+        volumeSlider.value = playerData.volume;
+        difficultyDropdown.value = (int)playerData.difficulty;
+        inputChoiceDropdown.value = playerData.inputSystem;
 
         Debug.Log(volume + systemIndex.ToString() + difficulty);
     }
@@ -76,8 +81,6 @@ public class PauseMenu : MonoBehaviour
         input_Joystick.SetActive(false);
         input_Buttons.SetActive(false);
     }
-
-  
 
     public void Resume()
     {
@@ -100,8 +103,7 @@ public class PauseMenu : MonoBehaviour
     {
         pauseMenuUI.SetActive(false);
         settingsMenuUI.SetActive(true);
-        SaveSystem.SavePlayer(data);
-
+        SaveSystem.SavePlayer(playerData);
     }
 
     public void SelectDifficulty(int index)
@@ -124,7 +126,8 @@ public class PauseMenu : MonoBehaviour
                 systemIndex = 2;
                 break;
         }
-        SaveSystem.SavePlayer(data);
+        playerData.difficulty = difficulty;
+        SaveSystem.SavePlayer(playerData);
     }
     public void SelectInputSystem(int index)
     {
@@ -145,12 +148,12 @@ public class PauseMenu : MonoBehaviour
             case 2:
                 input_Swipes.SetActive(false);
                 input_Joystick.SetActive(false);
-                input_Buttons.SetActive(true); 
+                input_Buttons.SetActive(true);
                 Debug.Log("Buttons is now the input choice");
                 break;
         }
-        SaveSystem.SavePlayer(data);
-
+        playerData.inputSystem = index;
+        SaveSystem.SavePlayer(playerData);
     }
 
     public void SetVolume(float volume)
@@ -161,7 +164,22 @@ public class PauseMenu : MonoBehaviour
         {
             this.volume = currentVolume;
         }
-        SaveSystem.SavePlayer(data);
+        playerData.volume = volume;
+        SaveSystem.SavePlayer(playerData);
+    }
 
+    public void OnMainMenuButton()
+    {
+        SceneManager.LoadSceneAsync("SelectPlayer");
+    }
+    private void OnDisable()
+    {
+        UpdateScore();
+        Time.timeScale = 1f;
+    }
+
+    private void UpdateScore()
+    {
+        playerData.totalScore += uiScore.scoreAmount;
     }
 }

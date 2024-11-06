@@ -63,6 +63,11 @@ public class SwipeInput : MonoBehaviour
                     player.Jump();
                     Debug.Log("Swiped up");
                 }
+                else if(swipeDelta.y < 0)
+                {
+                    player.UsePowerUp();
+                    Debug.Log("Swiped down");
+                }
             }
         }
     }
